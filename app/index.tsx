@@ -1,14 +1,30 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 
 export default function Home() {
+    const router = useRouter();
+
+    // メニューアイテム
+    const menuItems = [
+        { label: '📞 電話をかける', action: () => console.log('Call') },
+        { label: '👩 電話帳', action: () => console.log('Contacts') },
+        { label: '📖 着信履歴', action: () => console.log('History') },
+        { label: '🌤️ 天気予報', action: () => console.log('Weather') },
+        { label: '📰 ニュース', action: () => router.push('/about') },
+        { label: '📷 写真を撮る', action: () => console.log('Camera') },
+        { label: '🖼️ 写真を見る', action: () => console.log('Gallery') },
+    ];
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Hello, World!</Text>
-            <Link href="/about">
-                <Text style={styles.buttonText}>Go to About</Text>
-            </Link>
+            <View style={styles.menu}>
+                {menuItems.map((item, index) => (
+                    <TouchableOpacity key={index} style={styles.item} onPress={item.action}>
+                        <Text style={styles.itemText}>{item.label}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
         </View>
     );
 }
@@ -29,4 +45,19 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    item: {
+        backgroundColor: Colors.button,
+        padding: 20,
+        borderRadius: 10,
+        elevation: 3,
+    },
+    menu: {
+        gap: 20,
+        width: '80%',
+    },
+    itemText: {
+        fontSize: 30,
+        color: Colors.text,
+        fontWeight: 'bold',
+    }
 });

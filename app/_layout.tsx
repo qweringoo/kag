@@ -28,7 +28,7 @@ export default function RootLayout() {
                         style={[styles.button, styles.backButton]}
                         onPress={() => router.back()}
                     >
-                        <Text style={styles.icon}>👈</Text>
+                        <Text style={styles.icon}>👈🏼</Text>
                     </TouchableOpacity>
                 )}
             </View>
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
         gap: 15,
     },
     button: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
         borderRadius: 30,
         backgroundColor: Colors.button,
         justifyContent: 'center',
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.button,
     },
     icon: {
-        fontSize: 24,
+        fontSize: 40,
     },
 });
