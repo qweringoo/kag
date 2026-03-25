@@ -1,5 +1,5 @@
 export const Colors = {
-    background: '#FFFBDE',     // 全体の背景
+    background: '#FFFEF7',     // 全体の背景
     text: '#272727',           // 基本の文字
     primary: '#FFD0E3',        // メインカラー
     secondary: '#B8DB80',      // サブカラー

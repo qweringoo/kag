@@ -8,7 +8,7 @@ export default function RootLayout() {
     const pathname = usePathname();
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.mainContainer}>
             {/* 画面の重なり（遷移）の設定 */}
             <Stack screenOptions={{ headerShown: false }} />
 
@@ -37,6 +37,10 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        backgroundColor: Colors.background,
+    },
     floatingMenu: {
         position: 'absolute',
         bottom: 30,
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        backgroundColor: '#333',
+        backgroundColor: Colors.button,
         justifyContent: 'center',
         alignItems: 'center',
         elevation: 5,         // Androidの影
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     backButton: {
-        backgroundColor: '#666',
+        backgroundColor: Colors.button,
     },
     icon: {
         fontSize: 24,
