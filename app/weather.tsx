@@ -3,6 +3,9 @@ import { StyleSheet, Text, Alert, TouchableOpacity, ScrollView, View, AppState, 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import { Colors } from '../constants/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const CACHE_KEY = 'weather_cache';
 
 interface WeatherData {
     daily: {
@@ -28,6 +31,7 @@ export default function App() {
             const response = await fetch(url);
             const data = await response.json();
             setForecast(data);
+            return data;
         } catch (error) {
             Alert.alert('エラー', '天気予報がわかりませんでした。',
                 [
@@ -39,31 +43,49 @@ export default function App() {
     };
 
     const updateLocationAndWeather = async () => {
+        setLoading(true);
         try {
             // 位置情報の許可をリクエスト
-            let { status } = await Location.requestForegroundPermissionsAsync();
+            const { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 Alert.alert('位置情報の許可が必要です');
                 return;
             }
             // 現在地を取得
-            let location = await Location.getCurrentPositionAsync({});
+            const location = await Location.getCurrentPositionAsync({});
             const { latitude, longitude } = location.coords;
 
             // 住所を逆ジオコーディングで取得
-            let reverse = await Location.reverseGeocodeAsync({ latitude, longitude });
+            const reverse = await Location.reverseGeocodeAsync({ latitude, longitude });
             const city = reverse[0]?.city || reverse[0]?.district || '現在の場所';
             setAddress(city);
 
             // 天気予報を取得
-            await fetchWeather(latitude, longitude);
+            const data = await fetchWeather(latitude, longitude);
+
+            // キャッシュに保存
+            await AsyncStorage.setItem(CACHE_KEY, JSON.stringify({ forecast: data, address: city, timestamp: Date.now() }));
         } catch (e) {
-            setAddress('現在地の取得に失敗しました');
+            setAddress('更新できませんでした。');
+        } finally {
+            setLoading(false);
         }
     };
 
     useEffect(() => {
-        updateLocationAndWeather();
+
+        const loadCache = async () => {
+            const savedData = await AsyncStorage.getItem(CACHE_KEY);
+            if (savedData) {
+                const { forecast, address } = JSON.parse(savedData);
+                setForecast(forecast);
+                setAddress(address);
+            }
+            // 最新情報を取得
+            updateLocationAndWeather();
+        };
+
+        loadCache();
 
         const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
             if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
