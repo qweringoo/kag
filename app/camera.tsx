@@ -4,9 +4,11 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useRouter } from 'expo-router';
 import { HapticButton } from '../components/HapticButton';
 import { Colors } from '../constants/Colors';
+import * as MediaLibrary from 'expo-media-library';
 
 export default function CameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
+    const [permissionResponse, requestMediaPermission] = MediaLibrary.usePermissions();
     const cameraRef = useRef<CameraView>(null);
     const router = useRouter();
     const [facing, setFacing] = useState<'front' | 'back'>('back');
@@ -37,8 +39,17 @@ export default function CameraScreen() {
         if (cameraRef.current) {
             try {
                 const photo = await cameraRef.current.takePictureAsync({ quality: 0.5 });
-                console.log(photo.uri); // 撮った写真の保存先
-                Alert.alert('撮れました！', 'きれいに撮れましたよ。');
+                if (permissionResponse?.status !== 'granted') {
+                    const { status } = await requestMediaPermission();
+                    if (status !== 'granted') {
+                        Alert.alert('エラー', '写真を保存する許可が必要です。');
+                        return;
+                    }
+                }
+
+                await MediaLibrary.saveToLibraryAsync(photo.uri);
+
+                Alert.alert('撮れました！', '写真を保存しました。',);
             } catch (e) {
                 Alert.alert('エラー', 'うまく撮れませんでした。');
             }
@@ -48,20 +59,20 @@ export default function CameraScreen() {
     return (
         <View style={styles.container}>
             <CameraView style={styles.camera} ref={cameraRef} facing={facing}>
-                <View style={styles.overlay}>
-                    {/* カメラの向きを切り替えるボタン（右上） */}
-                    <HapticButton style={styles.facingButton} onPress={toggleCameraFacing}>
-                        <Text style={{ color: Colors.text, fontWeight: 'bold', fontSize: 23 }}>🔄️</Text>
-                    </HapticButton>
-                    {/* シャッターボタン（中央下） */}
-                    <View style={styles.shutterContainer}>
-                        <HapticButton style={styles.shutter} onPress={takePicture}>
-                            <View style={styles.shutterInner} />
-                            <Text style={{ color: Colors.text, fontWeight: 'bold', position: 'absolute', fontSize: 32, transform: [{ translateY: -4 }] }}>📷️</Text>
-                        </HapticButton>
-                    </View>
-                </View>
             </CameraView>
+            <View style={styles.overlay}>
+                {/* カメラの向きを切り替えるボタン（右上） */}
+                <HapticButton style={styles.facingButton} onPress={toggleCameraFacing}>
+                    <Text style={{ color: Colors.text, fontWeight: 'bold', fontSize: 23 }}>🔄️</Text>
+                </HapticButton>
+                {/* シャッターボタン（中央下） */}
+                <View style={styles.shutterContainer}>
+                    <HapticButton style={styles.shutter} onPress={takePicture}>
+                        <View style={styles.shutterInner} />
+                        <Text style={{ color: Colors.text, fontWeight: 'bold', position: 'absolute', fontSize: 32, transform: [{ translateY: -4 }] }}>📷️</Text>
+                    </HapticButton>
+                </View>
+            </View>
         </View>
     );
 }
@@ -77,7 +88,11 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         backgroundColor: 'transparent',
-        justifyContent: 'flex-end',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         padding: 40,
         marginBottom: 30,
     },
@@ -98,7 +113,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     shutterContainer: {
+        flex: 1,
         alignItems: 'center',
+        justifyContent: 'flex-end',
         gap: 10,
     },
     shutter: {

@@ -29,7 +29,26 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-media-library",
+        {
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "このアプリでは、写真を撮るためにカメラへのアクセスが必要です。"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "このアプリでは、写真に位置情報を付与するために位置情報へのアクセスが必要です。",
+          "locationWhenInUsePermission": "このアプリでは、写真に位置情報を付与するために位置情報へのアクセスが必要です。"
+        }
+      ]
     ],
     "scheme": "qweringo-kag"
   }
