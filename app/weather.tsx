@@ -57,7 +57,7 @@ export default function App() {
 
             // 住所を逆ジオコーディングで取得
             const reverse = await Location.reverseGeocodeAsync({ latitude, longitude });
-            const city = reverse[0]?.city || reverse[0]?.district || '現在の場所';
+            const city = reverse[0]?.city || reverse[0]?.district || 'どこか';
             setAddress(city);
 
             // 天気予報を取得
@@ -66,7 +66,7 @@ export default function App() {
             // キャッシュに保存
             await AsyncStorage.setItem(CACHE_KEY, JSON.stringify({ forecast: data, address: city, timestamp: Date.now() }));
         } catch (e) {
-            setAddress('更新できませんでした。');
+            setAddress('なぞ');
         } finally {
             setLoading(false);
         }
@@ -123,7 +123,7 @@ export default function App() {
                 {loading && <Text style={{ ...styles.text, fontSize: 16, position: 'absolute', right: 20, color: 'orange' }}>更新中...</Text>}
             </View>
             {forecast ? (
-                <ScrollView style={styles.mainView} contentContainerStyle={{ gap: 20, marginTop: 20 }}>
+                <ScrollView style={styles.mainView} contentContainerStyle={{ gap: 20, marginTop: 10 }}>
                     {forecast && (
                         forecast.daily.time.map((date, index) => (
                             <View style={styles.dailyItem} key={index}>
