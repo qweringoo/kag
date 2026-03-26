@@ -32,9 +32,7 @@ export const HapticButton: React.FC<HapticButtonProps> = ({
         }
 
         // 本来のクリック処理を実行
-        if (onPress) {
-            onPress(event);
-        }
+        onPress?.(event);
     };
 
     return (

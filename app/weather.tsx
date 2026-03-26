@@ -25,11 +25,11 @@ export default function App() {
     const [loading, setLoading] = useState(false);
     const [address, setAddress] = useState<string>('現在地を取得中...');
 
-    const fetchWeather = async (latitude: number, longitude: number) => {
+    const fetchWeather = async (latitude: number, longitude: number): Promise<WeatherData> => {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max&timezone=Asia%2FTokyo`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('天気予報の取得に失敗しました');
-        const data = await response.json();
+        const data: WeatherData = await response.json();
         return data;
     };
 
@@ -37,8 +37,8 @@ export default function App() {
         if (loading) return;
         if (isFetchingRef.current) return;
         isFetchingRef.current = true;
-
         setLoading(true);
+
         try {
             // 位置情報の許可をリクエスト
             const { status } = await Location.requestForegroundPermissionsAsync();
@@ -46,6 +46,7 @@ export default function App() {
                 Alert.alert('位置情報の許可が必要です');
                 return;
             }
+
             // 現在地を取得
             const location = await Location.getCurrentPositionAsync({});
             const { latitude, longitude } = location.coords;
@@ -60,11 +61,11 @@ export default function App() {
             // 取得したデータを状態にセット
             setForecast(data);
             setAddress(city);
+
             // キャッシュに保存
             await AsyncStorage.setItem(CACHE_KEY, JSON.stringify({ forecast: data, address: city, timestamp: Date.now() }));
         } catch (e) {
             Alert.alert('エラー', '天気の更新に失敗しました。');
-            setAddress('なぞ');
         } finally {
             setLoading(false);
             isFetchingRef.current = false;
@@ -80,11 +81,12 @@ export default function App() {
                 setForecast(forecast);
                 setAddress(address);
             }
-            // 最新情報を取得
-            updateLocationAndWeather();
         };
 
         loadCache();
+
+        // 最新情報を取得
+        updateLocationAndWeather();
 
         const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
             if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
