@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';

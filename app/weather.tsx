@@ -20,29 +20,24 @@ interface WeatherData {
 export default function App() {
 
     const appState = useRef<AppStateStatus>(AppState.currentState);
+    const isFetchingRef = useRef(false);
     const [forecast, setForecast] = useState<WeatherData | null>(null);
     const [loading, setLoading] = useState(false);
     const [address, setAddress] = useState<string>('現在地を取得中...');
 
     const fetchWeather = async (latitude: number, longitude: number) => {
-        setLoading(true);
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max&timezone=Asia%2FTokyo`;
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            setForecast(data);
-            return data;
-        } catch (error) {
-            Alert.alert('エラー', '天気予報がわかりませんでした。',
-                [
-                    { text: 'もう一度試す', onPress: () => fetchWeather(latitude, longitude) },
-                ]);
-        } finally {
-            setLoading(false);
-        }
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('天気予報の取得に失敗しました');
+        const data = await response.json();
+        return data;
     };
 
     const updateLocationAndWeather = async () => {
+        if (loading) return;
+        if (isFetchingRef.current) return;
+        isFetchingRef.current = true;
+
         setLoading(true);
         try {
             // 位置情報の許可をリクエスト
@@ -58,17 +53,21 @@ export default function App() {
             // 住所を逆ジオコーディングで取得
             const reverse = await Location.reverseGeocodeAsync({ latitude, longitude });
             const city = reverse[0]?.city || reverse[0]?.district || 'どこか';
-            setAddress(city);
 
             // 天気予報を取得
             const data = await fetchWeather(latitude, longitude);
 
+            // 取得したデータを状態にセット
+            setForecast(data);
+            setAddress(city);
             // キャッシュに保存
             await AsyncStorage.setItem(CACHE_KEY, JSON.stringify({ forecast: data, address: city, timestamp: Date.now() }));
         } catch (e) {
+            Alert.alert('エラー', '天気の更新に失敗しました。');
             setAddress('なぞ');
         } finally {
             setLoading(false);
+            isFetchingRef.current = false;
         }
     };
 
