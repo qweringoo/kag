@@ -11,10 +11,6 @@ export default function RootLayout() {
         <SafeAreaView style={styles.mainContainer}>
             {/* 画面の重なり（遷移）の設定 */}
             <Stack screenOptions={{ headerShown: false }} />
-            {/* 上部のタイトル */}
-            <Text style={{ position: 'absolute', top: 50, alignSelf: 'center', fontSize: 18, color: Colors.text, fontWeight: 'bold' }}>
-                かぐ
-            </Text>
 
             {/* 右下のフローティングメニュー */}
             <View style={styles.floatingMenu}>

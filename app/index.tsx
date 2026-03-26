@@ -24,6 +24,9 @@ export default function Home() {
                         <Text style={styles.itemText}>{item.label}</Text>
                     </TouchableOpacity>
                 ))}
+                <Text style={{ position: 'absolute', top: -40, alignSelf: 'center', fontSize: 18, color: Colors.text, fontWeight: 'bold' }}>
+                    かぐ
+                </Text>
             </View>
         </View>
     );

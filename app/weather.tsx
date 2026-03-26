@@ -117,33 +117,40 @@ export default function App() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={{ width: '100%', flexDirection: 'row', gap: 10, marginBottom: 10, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.container}>
+            <View style={{ width: '100%', flexDirection: 'row', gap: 10, marginTop: 10, marginBottom: 10, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={styles.titleText}>⛅️{address}のお天気</Text>
                 {loading && <Text style={{ ...styles.text, fontSize: 16, position: 'absolute', right: 20, color: 'orange' }}>更新中...</Text>}
             </View>
-            {!forecast && <Text style={{ ...styles.text, fontSize: 50, marginTop: 50, textAlign: 'center' }}>天気予報を{"\n"}調べています{"\n"}お待ちください...</Text>}
-            <ScrollView style={styles.mainView} contentContainerStyle={{ gap: 20 }}>
-                {forecast && (
-                    forecast.daily.time.map((date, index) => (
-                        <View style={styles.dailyItem} key={index}>
-                            <View style={styles.leftSection}>
-                                <Text style={{ ...styles.textH2, fontSize: 30 }}>{getWeatherIcon(forecast.daily.weathercode[index])}</Text>
-                                {new Date(date).getDate() === new Date().getDate() ? <Text style={styles.textH2}>今日</Text> :
-                                    (<><Text style={styles.textH2}>{date.slice(-5, -3)}/{date.slice(-2)}</Text>
-                                        <Text style={{ ...styles.text, fontSize: 16 }}>({getDayOfWeek(date)})</Text></>)}
+            {forecast ? (
+                <ScrollView style={styles.mainView} contentContainerStyle={{ gap: 20, marginTop: 20 }}>
+                    {forecast && (
+                        forecast.daily.time.map((date, index) => (
+                            <View style={styles.dailyItem} key={index}>
+                                <View style={styles.leftSection}>
+                                    <Text style={{ ...styles.textH2, fontSize: 30 }}>{getWeatherIcon(forecast.daily.weathercode[index])}</Text>
+                                    {new Date(date).getDate() === new Date().getDate() ? <Text style={styles.textH2}>今日</Text> :
+                                        (<><Text style={styles.textH2}>{date.slice(-5, -3)}/{date.slice(-2)}</Text>
+                                            <Text style={{ ...styles.text, fontSize: 16 }}>({getDayOfWeek(date)})</Text></>)}
+                                </View>
+                                <View style={styles.rightSection}>
+                                    <Text style={styles.text}>降水確率: {forecast.daily.precipitation_probability_max[index]}%</Text>
+                                    <Text style={styles.text}>
+                                        <Text style={{ color: 'red' }}>{forecast.daily.temperature_2m_max[index]}°C</Text> / <Text style={{ color: 'blue' }}>{forecast.daily.temperature_2m_min[index]}°C</Text>
+                                    </Text>
+                                </View>
                             </View>
-                            <View style={styles.rightSection}>
-                                <Text style={styles.text}>降水確率: {forecast.daily.precipitation_probability_max[index]}%</Text>
-                                <Text style={styles.text}>
-                                    <Text style={{ color: 'red' }}>{forecast.daily.temperature_2m_max[index]}°C</Text> / <Text style={{ color: 'blue' }}>{forecast.daily.temperature_2m_min[index]}°C</Text>
-                                </Text>
-                            </View>
-                        </View>
-                    ))
-                )}
-            </ScrollView>
-        </SafeAreaView>
+                        ))
+                    )}
+                    <Text style={{ ...styles.text, fontSize: 16, color: 'gray', textAlign: 'center' }}>
+                        ※天気予報はOpen-Meteo APIを使用しています。
+                    </Text>
+                    <View style={{ height: 150 }} />
+                </ScrollView>
+            ) : (
+                <Text style={{ ...styles.text, fontSize: 50, marginTop: 50, textAlign: 'center' }}>天気予報を{"\n"}調べています{"\n"}お待ちください...</Text>
+            )}
+        </View>
     );
 
 }
