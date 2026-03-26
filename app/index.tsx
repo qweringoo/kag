@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
+import { HapticButton } from '../components/HapticButton';
 
 export default function Home() {
     const router = useRouter();
@@ -20,9 +21,9 @@ export default function Home() {
         <View style={styles.container}>
             <View style={styles.menu}>
                 {menuItems.map((item, index) => (
-                    <TouchableOpacity key={index} style={styles.item} onPress={item.action}>
+                    <HapticButton key={index} style={styles.item} onPress={item.action}>
                         <Text style={styles.itemText}>{item.label}</Text>
-                    </TouchableOpacity>
+                    </HapticButton>
                 ))}
                 <Text style={{ position: 'absolute', top: -40, alignSelf: 'center', fontSize: 18, color: Colors.text, fontWeight: 'bold' }}>
                     かぐ

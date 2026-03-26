@@ -2,6 +2,7 @@ import { Stack, useRouter, usePathname } from 'expo-router';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { HapticButton } from '../components/HapticButton';
 
 export default function RootLayout() {
     const router = useRouter();
@@ -15,21 +16,21 @@ export default function RootLayout() {
             {/* 右下のフローティングメニュー */}
             <View style={styles.floatingMenu}>
                 {/* ホームに戻るボタン */}
-                <TouchableOpacity
+                <HapticButton
                     style={styles.button}
                     onPress={() => router.replace('/')}
                 >
                     <Text style={styles.icon}>🏠</Text>
-                </TouchableOpacity>
+                </HapticButton>
 
                 {/* 戻るボタン */}
                 {pathname !== '/' && (
-                    <TouchableOpacity
+                    <HapticButton
                         style={[styles.button, styles.backButton]}
                         onPress={() => router.back()}
                     >
                         <Text style={styles.icon}>👈🏼</Text>
-                    </TouchableOpacity>
+                    </HapticButton>
                 )}
             </View>
         </SafeAreaView>
