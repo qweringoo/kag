@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Colors } from '../constants/Colors';
+import { HapticButton } from '../components/HapticButton';
 
 export default function Gallery() {
     const [assets, setAssets] = useState<MediaLibrary.Asset[]>([]);
 
     const { width } = Dimensions.get('window');
-    const COLUMN_COUNT = 3; // 1行に表示する写真の数
+    const COLUMN_COUNT = 2; // 1行に表示する写真の数
     const IMAGE_SIZE = width / COLUMN_COUNT - 10; // 写真のサイズ（余白を考慮）
 
     const getPhotos = async () => {
@@ -34,12 +35,15 @@ export default function Gallery() {
         <View style={styles.container}>
             <Text style={styles.title}>{assets.length} 枚の写真</Text>
             <ScrollView contentContainerStyle={styles.grid}>
-                {assets.map((asset) => (
+                {assets.map((asset) => (<View key={asset.id}>
                     <Image
-                        key={asset.id}
                         source={{ uri: asset.uri }}
                         style={{ width: IMAGE_SIZE, height: IMAGE_SIZE, borderRadius: 8 }}
                     />
+                    <HapticButton style={styles.selectButton} onPress={() => alert('写真を選択')}>
+                        <Text style={styles.selectButtonIcon}>👆🏼</Text>
+                    </HapticButton>
+                </View>
                 ))}
             </ScrollView>
         </View>
@@ -65,5 +69,22 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 5,
         gap: 10,
+    },
+    selectButton: {
+        position: 'absolute',
+        right: 5,
+        bottom: 5,
+        justifyContent: 'center',
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        backgroundColor: Colors.button,
+    },
+    selectButtonIcon: {
+        position: 'relative',
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: Colors.text,
+        textAlign: 'center',
     },
 });
