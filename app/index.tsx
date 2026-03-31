@@ -14,7 +14,7 @@ export default function Home() {
         { label: '🌤️ 天気予報', action: () => router.push('/weather') },
         { label: '📰 ニュース', action: () => router.push('/about') },
         { label: '📷 写真を撮る', action: () => router.push('/camera') },
-        { label: '🖼️ 写真を見る', action: () => console.log('Gallery') },
+        { label: '🖼️ 写真を見る', action: () => router.push('/gallery') },
     ];
 
     return (

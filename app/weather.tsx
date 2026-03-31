@@ -117,6 +117,12 @@ export default function App() {
         return '❓';
     };
 
+    const isToday = (targetDate: string) => {
+        const today = new Date().getDate();
+        const date = new Date(targetDate).getDate();
+        return today === date;
+    }
+
     return (
         <View style={styles.container}>
             <View style={{ width: '100%', flexDirection: 'row', gap: 10, marginTop: 10, marginBottom: 10, alignItems: 'center', justifyContent: 'center' }}>
@@ -127,10 +133,10 @@ export default function App() {
                 <ScrollView style={styles.mainView} contentContainerStyle={{ gap: 20, marginTop: 10 }}>
                     {forecast && (
                         forecast.daily.time.map((date, index) => (
-                            <View style={styles.dailyItem} key={index}>
+                            <View style={isToday(date) ? { ...styles.dailyItem, backgroundColor: Colors.secondary } : styles.dailyItem} key={index}>
                                 <View style={styles.leftSection}>
                                     <Text style={{ ...styles.textH2, fontSize: 30 }}>{getWeatherIcon(forecast.daily.weathercode[index])}</Text>
-                                    {new Date(date).getDate() === new Date().getDate() ? <Text style={styles.textH2}>今日</Text> :
+                                    {isToday(date) ? <Text style={styles.textH2}>今日</Text> :
                                         (<><Text style={styles.textH2}>{date.slice(-5, -3)}/{date.slice(-2)}</Text>
                                             <Text style={{ ...styles.text, fontSize: 16 }}>({getDayOfWeek(date)})</Text></>)}
                                 </View>
