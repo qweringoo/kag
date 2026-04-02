@@ -3,12 +3,14 @@ import { StyleSheet, Text, View, Dimensions, Image, FlatList } from 'react-nativ
 import * as MediaLibrary from 'expo-media-library';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
+import { useRouter } from 'expo-router';
 
 export default function Gallery() {
     const [assets, setAssets] = useState<MediaLibrary.Asset[]>([]);
     const [after, setAfter] = useState<string | undefined>(undefined);
     const [hasNextPage, setHasNextPage] = useState(true);
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const { width } = Dimensions.get('window');
     const COLUMN_COUNT = 2; // 1行に表示する写真の数
@@ -45,6 +47,10 @@ export default function Gallery() {
         });
     }, []);
 
+    const openDetail = (uri: string) => {
+        router.push({ pathname: '/photo-detail', params: { uri } });
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{assets.length}枚の写真</Text>
@@ -58,7 +64,7 @@ export default function Gallery() {
                             source={{ uri: item.uri }}
                             style={{ width: IMAGE_SIZE, height: IMAGE_SIZE, borderRadius: 8, margin: 5 }}
                         />
-                        <HapticButton style={styles.selectButton} onPress={() => alert('写真を選択')}>
+                        <HapticButton style={styles.selectButton} onPress={() => openDetail(item.uri)}>
                             <Text style={styles.selectButtonIcon}>👆🏼</Text>
                         </HapticButton>
                     </View>)}
