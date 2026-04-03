@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, AppStateStatus, AppState } from 'react-native';
+import { View, Text, StyleSheet, FlatList, AppStateStatus, AppState, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { XMLParser } from 'fast-xml-parser';
@@ -29,6 +29,7 @@ export default function News() {
             const rawUrls: string = process.env.EXPO_PUBLIC_RSS_URLS;
             if (!rawUrls || rawUrls.length === 0) {
                 console.error('RSS URLが設定されていません, /.envファイルを確認してください.');
+                Alert.alert('⚠️ エラー', 'ニュースのURLが設定されていません。');
                 return;
             }
             const urls = rawUrls.split(',').map(url => url.trim());
@@ -53,7 +54,9 @@ export default function News() {
             setNews(prev => [...prev, ...items]);
             rssIndexRef.current += 1;
 
-            await AsyncStorage.setItem(CACHE_KEY, JSON.stringify([...news, ...items]));
+            const nextNews = [...news, ...items];
+            setNews(nextNews);
+            await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(nextNews));
 
         } catch (e) {
             console.error('ニュースの取得に失敗:', e);
