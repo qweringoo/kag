@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#001F50"
     },
     "ios": {
       "supportsTablet": true,
@@ -19,7 +19,7 @@
       "package": "com.qweringo.kag",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#001F50"
       },
       "predictiveBackGestureEnabled": false,
       "permissions": [
