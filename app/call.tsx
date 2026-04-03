@@ -3,7 +3,7 @@ import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
 import { useState } from 'react';
 
-const callPhone = async (number: string) => {
+export const callPhone = async (number: string) => {
     const targetApp: string = process.env.EXPO_PUBLIC_USE_RAKUTEN_LINK === 'true' ? 'rakuten' : 'default';
     const cleanedNumber = number.replace(/-/g, '');
     let url = '';
