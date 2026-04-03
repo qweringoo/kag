@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, AppStateStatus, AppState } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { XMLParser } from 'fast-xml-parser';
@@ -19,6 +19,8 @@ export default function News() {
     const [news, setNews] = useState<NewsItem[]>([]);
     const rssIndexRef = useRef(0);
     const [loading, setLoading] = useState(false);
+    const appState = useRef<AppStateStatus>(AppState.currentState);
+
 
     const fetchNews = async () => {
         if (loading) return;
@@ -69,6 +71,13 @@ export default function News() {
         };
         loadCache();
         fetchNews();
+
+        const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
+            if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+                fetchNews();
+            }
+            appState.current = nextAppState;
+        });
     }, []);
 
     const openDetail = (link: string) => {
