@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { XMLParser } from 'fast-xml-parser';
 import { useEffect, useState } from 'react';
+import { HapticButton } from '../components/HapticButton';
 
 interface NewsItem {
     title: string;
@@ -10,6 +12,7 @@ interface NewsItem {
 }
 
 export default function News() {
+    const router = useRouter();
     const [news, setNews] = useState<NewsItem[]>([]);
 
     const fetchNews = async () => {
@@ -45,15 +48,18 @@ export default function News() {
         fetchNews();
     }, []);
 
+    const openDetail = (link: string) => {
+        router.push({ pathname: '/news-detail', params: { url: link } });
+    };
     return (
         <View style={styles.container}>
             <FlatList
                 data={news}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.itemCard}>
+                    <HapticButton style={styles.itemCard} onPress={() => openDetail(item.link)}>
                         <Text style={styles.itemTitle}>{item.title}</Text>
-                    </View>
+                    </HapticButton>
                 )}
             />
         </View>
@@ -66,7 +72,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.background,
     },
     itemCard: {
-        backgroundColor: Colors.primary,
+        backgroundColor: Colors.button,
         padding: 15,
         marginHorizontal: 10,
         marginTop: 10,
