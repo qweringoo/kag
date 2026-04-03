@@ -11,7 +11,21 @@ export default function RootLayout() {
     return (
         <SafeAreaView style={styles.mainContainer}>
             {/* 画面の重なり（遷移）の設定 */}
-            <Stack screenOptions={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false }}>
+
+                <Stack.Screen name="index" />
+                <Stack.Screen name="about" />
+                <Stack.Screen name="camera" />
+                <Stack.Screen name="gallery" />
+                <Stack.Screen name="weather" />
+
+                <Stack.Screen
+                    name="photo-detail"
+                    options={{
+                        presentation: 'modal',
+                        animation: 'slide_from_bottom'
+                    }} />
+            </Stack>
 
             {/* 右下のフローティングメニュー */}
             <View style={styles.floatingMenu}>
