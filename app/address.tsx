@@ -45,7 +45,7 @@ export default function Address() {
                         <Text style={styles.text}>{item.name}</Text>
                     </HapticButton>
                 )}
-                keyExtractor={(item) => item.name}
+                keyExtractor={(item, index) => index.toString()}
                 contentContainerStyle={{ padding: 20 }}
                 style={{ width: '100%' }}
             />
