@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Alert, Linking } from 'react-native'
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
@@ -10,7 +10,7 @@ export default function Home() {
     const menuItems = [
         { label: '📞 電話をかける', action: () => router.push('/call') },
         { label: '👩 電話帳', action: () => router.push('/address') },
-        { label: '📖 着信履歴', action: () => console.log('History') },
+        { label: '📖 通話履歴', action: openHistroy },
         { label: '🌤️ 天気予報', action: () => router.push('/weather') },
         { label: '📰 ニュース', action: () => router.push('/news') },
         { label: '📷 写真を撮る', action: () => router.push('/camera') },
