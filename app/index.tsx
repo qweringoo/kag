@@ -10,7 +10,7 @@ export default function Home() {
     const menuItems = [
         { label: '📞 電話をかける', action: () => router.push('/call') },
         { label: '👩 電話帳', action: () => router.push('/address') },
-        { label: '📖 通話履歴', action: openHistroy },
+        { label: '📖 通話履歴', action: () => router.push('/history') },
         { label: '🌤️ 天気予報', action: () => router.push('/weather') },
         { label: '📰 ニュース', action: () => router.push('/news') },
         { label: '📷 写真を撮る', action: () => router.push('/camera') },
