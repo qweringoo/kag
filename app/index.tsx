@@ -8,7 +8,7 @@ export default function Home() {
 
     // メニューアイテム
     const menuItems = [
-        { label: '📞 電話をかける', action: () => console.log('Call') },
+        { label: '📞 電話をかける', action: () => router.push('/call') },
         { label: '👩 電話帳', action: () => console.log('Contacts') },
         { label: '📖 着信履歴', action: () => console.log('History') },
         { label: '🌤️ 天気予報', action: () => router.push('/weather') },
