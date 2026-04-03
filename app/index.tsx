@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Alert, Linking } from 'react-native'
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
+import Constants from 'expo-constants';
 
 export default function Home() {
     const router = useRouter();
@@ -26,7 +27,7 @@ export default function Home() {
                     </HapticButton>
                 ))}
                 <Text style={{ position: 'absolute', top: -40, alignSelf: 'center', fontSize: 18, color: Colors.text, fontWeight: 'bold' }}>
-                    かぐ
+                    かぐ v{Constants.expoConfig?.version}
                 </Text>
             </View>
         </View>
