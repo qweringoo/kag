@@ -4,12 +4,15 @@ import { Colors } from '../constants/Colors';
 import { XMLParser } from 'fast-xml-parser';
 import { useEffect, useRef, useState } from 'react';
 import { HapticButton } from '../components/HapticButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface NewsItem {
     title: string;
     link: string;
     pubDate?: string;
 }
+
+const CACHE_KEY = 'news_cache';
 
 export default function News() {
     const router = useRouter();
@@ -48,6 +51,8 @@ export default function News() {
             setNews(prev => [...prev, ...items]);
             rssIndexRef.current += 1;
 
+            await AsyncStorage.setItem(CACHE_KEY, JSON.stringify([...news, ...items]));
+
         } catch (e) {
             console.error('ニュースの取得に失敗:', e);
         } finally {
@@ -56,6 +61,13 @@ export default function News() {
     };
 
     useEffect(() => {
+        const loadCache = async () => {
+            const savedData = await AsyncStorage.getItem(CACHE_KEY);
+            if (savedData) {
+                setNews(JSON.parse(savedData));
+            }
+        };
+        loadCache();
         fetchNews();
     }, []);
 
