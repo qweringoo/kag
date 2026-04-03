@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { HapticButton } from '../components/HapticButton';
 import { Colors } from '../constants/Colors';
 import * as MediaLibrary from 'expo-media-library';
+import { fi } from 'date-fns/locale';
 
 export default function CameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -12,6 +13,7 @@ export default function CameraScreen() {
     const cameraRef = useRef<CameraView>(null);
     const router = useRouter();
     const [facing, setFacing] = useState<'front' | 'back'>('back');
+    const [takingPhoto, setTakingPhoto] = useState(false);
 
     // カメラの向きを切り替える関数
     const toggleCameraFacing = () => {
@@ -34,6 +36,8 @@ export default function CameraScreen() {
         );
     }
 
+    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
     // 2. 写真を撮る関数
     const takePicture = async () => {
         if (cameraRef.current) {
@@ -47,9 +51,15 @@ export default function CameraScreen() {
                     }
                 }
 
+                setTakingPhoto(true);
+
                 await MediaLibrary.saveToLibraryAsync(photo.uri);
+
+                await sleep(3000); // 3秒待つ
             } catch (e) {
                 Alert.alert('エラー', 'うまく撮れませんでした。');
+            } finally {
+                setTakingPhoto(false);
             }
         }
     };
@@ -63,6 +73,11 @@ export default function CameraScreen() {
                 <HapticButton style={styles.facingButton} onPress={toggleCameraFacing}>
                     <Text style={{ color: Colors.text, fontWeight: 'bold', fontSize: 23 }}>🔄️</Text>
                 </HapticButton>
+                {takingPhoto && (
+                    <View style={styles.alertContainer}>
+                        <Text style={styles.alert}>写真を撮影しました！</Text>
+                    </View>
+                )}
                 {/* シャッターボタン（中央下） */}
                 <View style={styles.shutterContainer}>
                     <HapticButton style={styles.shutter} onPress={takePicture}>
@@ -141,4 +156,21 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         elevation: 5,
     },
+    alert: {
+        color: Colors.text,
+        fontSize: 27,
+        fontWeight: 'bold',
+        padding: 10,
+    },
+    alertContainer: {
+        position: 'absolute',
+        top: '40%',
+        bottom: '60%',
+        left: '10%',
+        right: '10%',
+        backgroundColor: Colors.primary,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
