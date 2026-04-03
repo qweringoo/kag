@@ -48,8 +48,6 @@ export default function CameraScreen() {
                 }
 
                 await MediaLibrary.saveToLibraryAsync(photo.uri);
-
-                Alert.alert('撮れました！', '写真を保存しました。',);
             } catch (e) {
                 Alert.alert('エラー', 'うまく撮れませんでした。');
             }
