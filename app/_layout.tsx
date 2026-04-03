@@ -2,6 +2,7 @@ import { Stack, useRouter, usePathname } from 'expo-router';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { HapticButton } from '../components/HapticButton';
 
 export default function RootLayout() {
     const router = useRouter();
@@ -10,30 +11,40 @@ export default function RootLayout() {
     return (
         <SafeAreaView style={styles.mainContainer}>
             {/* 画面の重なり（遷移）の設定 */}
-            <Stack screenOptions={{ headerShown: false }} />
-            {/* 上部のタイトル */}
-            <Text style={{ position: 'absolute', top: 50, alignSelf: 'center', fontSize: 18, color: Colors.text, fontWeight: 'bold' }}>
-                かぐ
-            </Text>
+            <Stack screenOptions={{ headerShown: false }}>
+
+                <Stack.Screen name="index" />
+                <Stack.Screen name="about" />
+                <Stack.Screen name="camera" />
+                <Stack.Screen name="gallery" />
+                <Stack.Screen name="weather" />
+
+                <Stack.Screen
+                    name="photo-detail"
+                    options={{
+                        presentation: 'modal',
+                        animation: 'slide_from_bottom'
+                    }} />
+            </Stack>
 
             {/* 右下のフローティングメニュー */}
             <View style={styles.floatingMenu}>
                 {/* ホームに戻るボタン */}
-                <TouchableOpacity
+                <HapticButton
                     style={styles.button}
                     onPress={() => router.replace('/')}
                 >
                     <Text style={styles.icon}>🏠</Text>
-                </TouchableOpacity>
+                </HapticButton>
 
                 {/* 戻るボタン */}
                 {pathname !== '/' && (
-                    <TouchableOpacity
+                    <HapticButton
                         style={[styles.button, styles.backButton]}
                         onPress={() => router.back()}
                     >
                         <Text style={styles.icon}>👈🏼</Text>
-                    </TouchableOpacity>
+                    </HapticButton>
                 )}
             </View>
         </SafeAreaView>

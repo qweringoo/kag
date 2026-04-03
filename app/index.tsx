@@ -1,29 +1,34 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Alert, Linking } from 'react-native'
 import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
+import { HapticButton } from '../components/HapticButton';
+import Constants from 'expo-constants';
 
 export default function Home() {
     const router = useRouter();
 
     // メニューアイテム
     const menuItems = [
-        { label: '📞 電話をかける', action: () => console.log('Call') },
-        { label: '👩 電話帳', action: () => console.log('Contacts') },
-        { label: '📖 着信履歴', action: () => console.log('History') },
-        { label: '🌤️ 天気予報', action: () => console.log('Weather') },
-        { label: '📰 ニュース', action: () => router.push('/about') },
-        { label: '📷 写真を撮る', action: () => console.log('Camera') },
-        { label: '🖼️ 写真を見る', action: () => console.log('Gallery') },
+        { label: '📞 電話をかける', action: () => router.push('/call') },
+        { label: '👩 電話帳', action: () => router.push('/address') },
+        { label: '📖 通話履歴', action: () => router.push('/history') },
+        { label: '🌤️ 天気予報', action: () => router.push('/weather') },
+        { label: '📰 ニュース', action: () => router.push('/news') },
+        { label: '📷 写真を撮る', action: () => router.push('/camera') },
+        { label: '🖼️ 写真を見る', action: () => router.push('/gallery') },
     ];
 
     return (
         <View style={styles.container}>
             <View style={styles.menu}>
                 {menuItems.map((item, index) => (
-                    <TouchableOpacity key={index} style={styles.item} onPress={item.action}>
+                    <HapticButton key={index} style={styles.item} onPress={item.action}>
                         <Text style={styles.itemText}>{item.label}</Text>
-                    </TouchableOpacity>
+                    </HapticButton>
                 ))}
+                <Text style={{ position: 'absolute', top: -40, alignSelf: 'center', fontSize: 18, color: Colors.text, fontWeight: 'bold' }}>
+                    かぐ v{Constants.expoConfig?.version}
+                </Text>
             </View>
         </View>
     );
