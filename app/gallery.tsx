@@ -47,8 +47,9 @@ export default function Gallery() {
         });
     }, []);
 
-    const openDetail = (uri: string) => {
-        router.push({ pathname: '/photo-detail', params: { uri } });
+    const openDetail = (uri: string, creationTime: number) => {
+        const photoData = { uri: uri, date: creationTime };
+        router.push({ pathname: '/photo-detail', params: { data: JSON.stringify(photoData) } });
     };
 
     return (
@@ -64,7 +65,7 @@ export default function Gallery() {
                             source={{ uri: item.uri }}
                             style={{ width: IMAGE_SIZE, height: IMAGE_SIZE, borderRadius: 8, margin: 5 }}
                         />
-                        <HapticButton style={styles.selectButton} onPress={() => openDetail(item.uri)}>
+                        <HapticButton style={styles.selectButton} onPress={() => openDetail(item.uri, item.creationTime)}>
                             <Text style={styles.selectButtonIcon}>👆🏼</Text>
                         </HapticButton>
                     </View>)}
