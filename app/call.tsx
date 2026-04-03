@@ -46,6 +46,7 @@ export default function Call() {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.titleText}>電話をかける</Text>
             <Text style={styles.targetNumber}>{targetNumber}</Text>
             <View style={styles.grid}>
                 {buttons.map((number, index) => (
@@ -67,11 +68,16 @@ export default function Call() {
 }
 
 const styles = StyleSheet.create({
+    titleText: {
+        fontSize: 27,
+        color: Colors.text,
+        fontWeight: 'bold',
+    },
     container: {
         flex: 1,
         alignItems: 'center',
         backgroundColor: Colors.background,
-        paddingTop: 50,
+        paddingTop: 30,
     },
     bottomContainer: {
         flexDirection: 'row',

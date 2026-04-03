@@ -39,6 +39,7 @@ export default function Address() {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.titleText}>電話帳</Text>
             <FlatList
                 data={contacts}
                 renderItem={({ item, index }) => (
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     titleText: {
-        fontSize: 30,
+        fontSize: 27,
         color: Colors.text,
         fontWeight: 'bold',
     },
