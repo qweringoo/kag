@@ -54,7 +54,7 @@ export default function Gallery() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{assets.length}枚の写真</Text>
+            <Text style={styles.title}>写真を見る</Text>
             <FlatList
                 data={assets}
                 keyExtractor={(item) => item.id}
