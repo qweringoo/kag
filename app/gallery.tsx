@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, FlatList, Alert } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
@@ -37,7 +37,8 @@ export default function Gallery() {
     const requestPermission = async () => {
         const { status } = await MediaLibrary.requestPermissionsAsync();
         if (status !== 'granted') {
-            alert('写真へのアクセスが必要です');
+            Alert.alert('⚠️ 権限エラー', '写真へのアクセスを許可してください.');
+            console.log('写真へのアクセス許可が必要です.');
             return;
         }
     };

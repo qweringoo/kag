@@ -5,7 +5,6 @@ import { useRouter } from 'expo-router';
 import { HapticButton } from '../components/HapticButton';
 import { Colors } from '../constants/Colors';
 import * as MediaLibrary from 'expo-media-library';
-import { fi } from 'date-fns/locale';
 
 export default function CameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -46,7 +45,8 @@ export default function CameraScreen() {
                 if (permissionResponse?.status !== 'granted') {
                     const { status } = await requestMediaPermission();
                     if (status !== 'granted') {
-                        Alert.alert('エラー', '写真を保存する許可が必要です。');
+                        Alert.alert('⚠️ エラー', '写真を保存する許可が必要です.');
+                        console.log('写真を保存する許可が必要です.');
                         return;
                     }
                 }
@@ -57,7 +57,8 @@ export default function CameraScreen() {
 
                 await sleep(3000); // 3秒待つ
             } catch (e) {
-                Alert.alert('エラー', 'うまく撮れませんでした。');
+                Alert.alert('⚠️ エラー', 'うまく撮れませんでした.');
+                console.log('写真を撮るのに失敗しました.', e);
             } finally {
                 setTakingPhoto(false);
             }

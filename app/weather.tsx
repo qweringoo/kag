@@ -43,7 +43,8 @@ export default function App() {
             // 位置情報の許可をリクエスト
             const { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
-                Alert.alert('位置情報の許可が必要です');
+                Alert.alert('⚠️ 権限エラー', '位置情報の許可が必要です');
+                console.log('位置情報の許可が必要です.');
                 return;
             }
 
@@ -65,7 +66,8 @@ export default function App() {
             // キャッシュに保存
             await AsyncStorage.setItem(CACHE_KEY, JSON.stringify({ forecast: data, address: city, timestamp: Date.now() }));
         } catch (e) {
-            Alert.alert('エラー', '天気の更新に失敗しました。');
+            Alert.alert('⚠️ エラー', '天気の更新に失敗しました。');
+            console.log('天気の更新に失敗しました。', e);
         } finally {
             setLoading(false);
             isFetchingRef.current = false;

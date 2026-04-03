@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Linking } from 'react-native';
+import { View, Text, StyleSheet, Linking, Alert } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
 import { useState } from 'react';
@@ -17,7 +17,8 @@ export const callPhone = async (number: string) => {
             else Linking.openURL(`tel:${cleanedNumber}`);
         } else Linking.openURL(url);
     } catch (e) {
-        console.error('電話をかけられませんでした.', e);
+        Alert.alert('⚠️ エラー', '電話をかけられませんでした.');
+        console.log('電話をかけられませんでした.', e);
     }
 };
 

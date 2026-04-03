@@ -17,7 +17,8 @@ export default function Address() {
         const fetchContacts = async () => {
             const { status } = await Contacts.requestPermissionsAsync();
             if (status !== 'granted') {
-                Alert.alert('連絡先へのアクセスが必要です');
+                console.log('連絡先へのアクセス許可が必要です.');
+                Alert.alert('⚠️ 権限エラー', '連絡先へのアクセスを許可してください.');
                 return;
             }
             const { data } = await Contacts.getContactsAsync({
