@@ -4,55 +4,49 @@ import { Colors } from '../constants/Colors';
 import { WebView } from 'react-native-webview';
 
 export default function NewsDetail() {
-    const { url }: { url: string } = useLocalSearchParams();
+  const { url }: { url: string } = useLocalSearchParams();
 
-    const hideAndMagnifyJS = `
+  const hideAndMagnifyJS = `
   (function() {
-    // 1. 不要な要素を消す
-    const selectorsToHide = [
-      'header', 'footer', '.p-header', '.p-footer', 
-      '.c-side-column', '.p-article__share', '.p-article__related',
-      '#related-news', '.c-breadcrumb'
-    ];
-    selectorsToHide.forEach(selector => {
-      const elements = document.querySelectorAll(selector);
-      elements.forEach(el => el.remove());
-    });
-
-    // 2. 文字サイズを 1bit ずつ巨大化
+    // 1. remove() ではなく display: none !important を使う
     const style = document.createElement('style');
     style.innerHTML = \`
-      body { font-size: 24px !important; line-height: 1.8 !important;  }
+      /* 不要な要素を非表示にする（物理的には残す） */
+      header, footer, .p-header, .p-footer, 
+      .c-side-column, .p-article__share, .p-article__related,
+      #related-news, .c-breadcrumb { 
+        display: none !important; 
+      }
+
+      /* 文字サイズを巨大化 */
+      body { font-size: 24px !important; line-height: 1.8 !important; }
       p { font-size: 24px !important; margin-bottom: 20px !important; }
-      h1 { font-size: 32px !important; font-weight: bold !important; line-height: 1.4 !important; }
+      h1 { font-size: 32px !important; font-weight: bold !important; }
       img { width: 100% !important; height: auto !important; border-radius: 8px !important; }
     \`;
     document.head.appendChild(style);
-
-    // 3. 画面の横揺れを防ぐためのパッチ
-    document.body.style.overflowX = 'hidden';
   })();
   true;
 `;
 
-    return (
-        <View style={styles.container}>
-            <WebView source={{ uri: url }}
-                style={styles.webView}
-                injectedJavaScript={hideAndMagnifyJS}
-                startInLoadingState={true}
-            />
-        </View>
-    );
+  return (
+    <View style={styles.container}>
+      <WebView source={{ uri: url }}
+        style={styles.webView}
+        injectedJavaScript={hideAndMagnifyJS}
+        startInLoadingState={true}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.background,
-    },
-    webView: {
-        flex: 1,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  webView: {
+    flex: 1,
+  },
 
 });
