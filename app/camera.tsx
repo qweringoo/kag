@@ -41,7 +41,7 @@ export default function CameraScreen() {
     const takePicture = async () => {
         if (cameraRef.current) {
             try {
-                const photo = await cameraRef.current.takePictureAsync({ quality: 0.5 });
+                const photo = await cameraRef.current.takePictureAsync({ quality: 0.5, exif: true });
                 if (permissionResponse?.status !== 'granted') {
                     const { status } = await requestMediaPermission();
                     if (status !== 'granted') {
@@ -53,7 +53,7 @@ export default function CameraScreen() {
 
                 setTakingPhoto(true);
 
-                await MediaLibrary.saveToLibraryAsync(photo.uri);
+                await MediaLibrary.createAssetAsync(photo.uri);
 
                 await sleep(3000); // 3秒待つ
             } catch (e) {

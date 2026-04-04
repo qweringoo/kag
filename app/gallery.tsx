@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, FlatList, Alert } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 
 export default function Gallery() {
     const [assets, setAssets] = useState<MediaLibrary.Asset[]>([]);
@@ -22,12 +22,11 @@ export default function Gallery() {
 
         const fetchedPhotos = await MediaLibrary.getAssetsAsync({
             first: 50, // 取得する写真の数
-            after: cursor, // 前回の最後の写真のIDを指定
-            sortBy: ['creationTime'], // 作成日時でソート
+            sortBy: [[MediaLibrary.SortBy.creationTime, false]], // 作成日時でソート
             mediaType: ['photo'], // 写真のみを取得
         });
 
-        setAssets(prev => [...prev, ...fetchedPhotos.assets]);
+        setAssets(fetchedPhotos.assets);
 
         setHasNextPage(fetchedPhotos.hasNextPage);
         setAfter(fetchedPhotos.endCursor);
@@ -42,10 +41,15 @@ export default function Gallery() {
             return;
         }
     };
-    useEffect(() => {
-        requestPermission().then(() => {
+
+    useFocusEffect(
+        useCallback(() => {
             getPhotos();
-        });
+        }, [])
+    );
+
+    useEffect(() => {
+        requestPermission();
     }, []);
 
     const openDetail = (uri: string, creationTime: number) => {
@@ -56,6 +60,8 @@ export default function Gallery() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>写真を見る</Text>
+            {loading && <Text style={{ fontSize: 16, position: 'absolute', right: 20, color: 'orange' }}>更新中...</Text>}
+
             <FlatList
                 data={assets}
                 keyExtractor={(item) => item.id}
