@@ -19,9 +19,9 @@ export default function NewsDetail() {
       }
 
       /* 文字サイズを巨大化 */
-      body { font-size: 24px !important; line-height: 1.8 !important; }
-      p { font-size: 24px !important; margin-bottom: 20px !important; }
-      h1 { font-size: 32px !important; font-weight: bold !important; }
+      body { font-size: 20px !important; line-height: 1.8 !important; }
+      p { font-size: 20px !important; margin-bottom: 20px !important; }
+      h1 { font-size: 20px !important; font-weight: bold !important; }
       img { width: 100% !important; height: auto !important; border-radius: 8px !important; }
     \`;
     document.head.appendChild(style);
