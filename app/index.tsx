@@ -14,8 +14,8 @@ export default function Home() {
         { label: '📅 漢字とカレンダー', action: () => router.push('/kanji-calendar') },
         { label: '🌤️ 天気予報', action: () => router.push('/weather') },
         { label: '📰 ニュース', action: () => router.push('/news') },
-        { label: '📷 写真を撮る', action: () => router.push('/camera') },
-        { label: '🖼️ 写真を見る', action: () => router.push('/gallery') },
+        { label: '📷 写真', action: () => router.push('/picture') },
+        { label: '♫ マナーモード', action: () => router.push('/quiet-mode') },
     ];
 
     return (
