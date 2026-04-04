@@ -134,6 +134,7 @@ export default function Address() {
                         <Text style={styles.text}>{title}</Text>
                     </View>
                 )}
+                style={{ width: '100%' }}
             />
         </View>
     );
@@ -161,8 +162,8 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 8,
         marginBottom: 10,
-        width: '100%',
         height: 80,
+        marginHorizontal: 10,
         justifyContent: 'center',
     },
     sectionHeader: {
