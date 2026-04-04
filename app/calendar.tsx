@@ -1,15 +1,43 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { View, StyleSheet, Text } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
-import { useRouter } from 'expo-router';
 
+LocaleConfig.locales['jp'] = {
+    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
+    dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
+};
+LocaleConfig.defaultLocale = 'jp';
 
-export default function Calender() {
-    const router = useRouter();
-
+export default function MyCalendar() {
     return (
         <View style={styles.container}>
-            <Text>hey</Text>
+            <Text style={styles.title}>カレンダー</Text>
+            <Calendar
+                theme={{
+                    calendarBackground: Colors.background,
+                    textSectionTitleColor: Colors.text,
+                    dayTextColor: Colors.text,
+                    todayTextColor: Colors.text,
+                    monthTextColor: Colors.text,
+                    textDayFontSize: 27,
+                    textMonthFontSize: 27,
+                    textDayHeaderFontSize: 27,
+                    textDayFontWeight: 'bold',
+                    textMonthFontWeight: 'bold',
+                    textDayHeaderFontWeight: 'bold',
+                    todayBackgroundColor: Colors.primary,
+                }}
+                onDayPress={() => { }}
+                renderArrow={(direction) => (
+                    <View style={styles.arrowButton}>
+                        <Text style={styles.arrowText}>{direction === 'left' ? '前' : '次'}</Text>
+                    </View>
+                )}
+                onPressArrowLeft={(subtractMonth) => subtractMonth()}
+                onPressArrowRight={(addMonth) => addMonth()}
+            />
         </View>
     );
 }
@@ -17,32 +45,26 @@ export default function Calender() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
         backgroundColor: Colors.background,
-        gap: 20,
+        paddingTop: 50,
     },
-    textInput: {
-        borderColor: 'gray',
-        paddingHorizontal: 10,
-        marginHorizontal: 10,
-        borderRadius: 10,
-        fontSize: 50,
-        marginTop: 100,
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
         color: Colors.text,
-        backgroundColor: Colors.button,
+        position: 'absolute',
+        top: 20,
+        alignSelf: 'center',
     },
-    button: {
-        padding: 15,
+    arrowButton: {
+        padding: 10,
         backgroundColor: Colors.button,
         borderRadius: 10,
         elevation: 3,
-        width: '80%',
-        alignItems: 'center',
     },
-    text: {
+    arrowText: {
         fontSize: 27,
-        fontWeight: 'bold',
         color: Colors.text,
-    },
+        fontWeight: 'bold',
+    }
 });

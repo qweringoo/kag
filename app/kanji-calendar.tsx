@@ -9,6 +9,7 @@ export default function KanjiToCalendar() {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>漢字とカレンダー</Text>
             <HapticButton style={styles.button} onPress={() => router.push('/kanji')}>
                 <Text style={styles.text}>🔍️ 漢字を調べる</Text>
             </HapticButton>
@@ -48,5 +49,12 @@ const styles = StyleSheet.create({
         fontSize: 27,
         fontWeight: 'bold',
         color: Colors.text,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: Colors.text,
+        position: 'absolute',
+        top: 20,
     },
 });

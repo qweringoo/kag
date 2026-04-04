@@ -9,6 +9,7 @@ export default function Kanji() {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>漢字を調べる</Text>
             <TextInput style={styles.textInput} placeholder="🔍️" />
             <HapticButton style={styles.button} onPress={() => router.push('/')}>
                 <Text style={styles.text}>終わる</Text>
@@ -47,5 +48,12 @@ const styles = StyleSheet.create({
         fontSize: 27,
         fontWeight: 'bold',
         color: Colors.text,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: Colors.text,
+        position: 'absolute',
+        top: 20,
     },
 });
