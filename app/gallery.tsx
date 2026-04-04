@@ -26,7 +26,7 @@ export default function Gallery() {
             mediaType: ['photo'], // 写真のみを取得
         });
 
-        setAssets(fetchedPhotos.assets);
+        setAssets([...assets, ...fetchedPhotos.assets]);
 
         setHasNextPage(fetchedPhotos.hasNextPage);
         setAfter(fetchedPhotos.endCursor);
@@ -60,8 +60,6 @@ export default function Gallery() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>写真を見る</Text>
-            {loading && <Text style={{ fontSize: 16, position: 'absolute', right: 20, color: 'orange' }}>更新中...</Text>}
-
             <FlatList
                 data={assets}
                 keyExtractor={(item) => item.id}
