@@ -1,29 +1,47 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { HapticButton } from '../components/HapticButton';
-import { useRouter } from 'expo-router';
-import SendIntent from 'react-native-send-intent';
+import * as Notifications from 'expo-notifications';
+import { useEffect } from 'react';
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowList: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    } as Notifications.NotificationBehavior),
+});
+
+Notifications.setNotificationChannelAsync('default', {
+    name: 'default',
+    importance: Notifications.AndroidImportance.MAX,
+});
 
 export default function QuietMode() {
-    const router = useRouter();
 
-    const sendIntent = (mode: 'on' | 'off') => {
-        SendIntent.sendBroadcastIntent({
-            action: 'com.qweringo.kag.SET_SILENT_MODE',
-            extras: {
-                mode: mode
+    const sendNotify = async (mode: 'on' | 'off') => {
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: 'KAG_SYSTEM_SIGNAL',
+                body: mode === 'on' ? 'MUTE_ON' : 'MUTE_OFF',
+                priority: Notifications.AndroidNotificationPriority.MAX,
             },
+            trigger: null,
         });
     };
+
+    useEffect(() => {
+        Notifications.requestPermissionsAsync();
+    }, []);
 
     return (
         <View style={styles.container}>
             <Text style={styles.titleText}>マナーモード</Text>
             <View style={styles.menuContainer}>
-                <HapticButton style={styles.item} onPress={() => sendIntent('off')}>
+                <HapticButton style={styles.item} onPress={() => sendNotify('off')}>
                     <Text style={styles.itemText}>⭕️ 音を出す</Text>
                 </HapticButton>
-                <HapticButton style={styles.item} onPress={() => sendIntent('on')}>
+                <HapticButton style={styles.item} onPress={() => sendNotify('on')}>
                     <Text style={styles.itemText}>❌️ 音を消す</Text>
                 </HapticButton>
             </View>

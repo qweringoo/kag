@@ -2,7 +2,7 @@
   "expo": {
     "name": "かぐ",
     "slug": "kag",
-    "version": "1.2.3",
+    "version": "1.2.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -59,20 +59,6 @@
         {
           "locationAlwaysAndWhenInUsePermission": "このアプリでは、写真に位置情報を付与するために位置情報へのアクセスが必要です。",
           "locationWhenInUsePermission": "このアプリでは、写真に位置情報を付与するために位置情報へのアクセスが必要です。"
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "extraParams": {
-              "manifestQueries": {
-                "package": [
-                  "com.ariankit.macrodroid"
-                ]
-              }
-            }
-          }
         }
       ]
     ],
