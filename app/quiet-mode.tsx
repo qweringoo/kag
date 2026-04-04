@@ -20,10 +20,10 @@ export default function QuietMode() {
         <View style={styles.container}>
             <Text style={styles.titleText}>マナーモード</Text>
             <View style={styles.menuContainer}>
-                <HapticButton style={styles.item} onPress={() => sendIntent('on')}>
+                <HapticButton style={styles.item} onPress={() => sendIntent('off')}>
                     <Text style={styles.itemText}>⭕️ 音を出す</Text>
                 </HapticButton>
-                <HapticButton style={styles.item} onPress={() => sendIntent('off')}>
+                <HapticButton style={styles.item} onPress={() => sendIntent('on')}>
                     <Text style={styles.itemText}>❌️ 音を消す</Text>
                 </HapticButton>
             </View>
