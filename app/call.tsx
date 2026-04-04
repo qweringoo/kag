@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 const { width } = Dimensions.get('window');
 const GRID_GAP = 20;
 const CONTAINER_PADDING = 20;
-const BUTTON_SIZE = (width - CONTAINER_PADDING * 2 - GRID_GAP * 2) / 3;
+const BUTTON_SIZE = ((width - CONTAINER_PADDING * 2 - GRID_GAP * 2) / 3) - width * 0.02;
 
 
 export const callPhone = async (number: string) => {
@@ -121,16 +121,15 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         paddingHorizontal: CONTAINER_PADDING,
         gap: GRID_GAP,
-        marginTop: 30,
     },
     targetNumber: {
         fontSize: 40,
         color: Colors.text,
         fontWeight: 'bold',
-        marginBottom: 50,
+        marginBottom: 30,
     }
 
 });
