@@ -24,7 +24,7 @@ export default function Home() {
                 {menuItems.map((item, index) => (
                     <HapticButton key={index} style={styles.item} onPress={item.action}>
                         {item.label === '📅 漢字とカレンダー' ? (
-                            <Text style={{ ...styles.itemText, fontSize: 24 }}>{item.label}</Text>
+                            <Text style={{ ...styles.itemText, fontSize: 20 }}>{item.label}</Text>
                         ) : (
                             <Text style={styles.itemText}>{item.label}</Text>
                         )}
