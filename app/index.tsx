@@ -11,7 +11,7 @@ export default function Home() {
     const menuItems = [
         { label: '📞 電話をかける', action: () => router.push('/call') },
         { label: '👩 電話帳', action: () => router.push('/address') },
-        { label: '📖 通話履歴', action: () => router.push('/history') },
+        { label: '📅 漢字とカレンダー', action: () => router.push('/kanji-calendar') },
         { label: '🌤️ 天気予報', action: () => router.push('/weather') },
         { label: '📰 ニュース', action: () => router.push('/news') },
         { label: '📷 写真を撮る', action: () => router.push('/camera') },
@@ -23,7 +23,11 @@ export default function Home() {
             <View style={styles.menu}>
                 {menuItems.map((item, index) => (
                     <HapticButton key={index} style={styles.item} onPress={item.action}>
-                        <Text style={styles.itemText}>{item.label}</Text>
+                        {item.label === '📅 漢字とカレンダー' ? (
+                            <Text style={{ ...styles.itemText, fontSize: 24 }}>{item.label}</Text>
+                        ) : (
+                            <Text style={styles.itemText}>{item.label}</Text>
+                        )}
                     </HapticButton>
                 ))}
                 <Text style={{ position: 'absolute', top: -40, alignSelf: 'center', fontSize: 18, color: Colors.text, fontWeight: 'bold' }}>
