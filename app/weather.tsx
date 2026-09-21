@@ -129,7 +129,7 @@ export default function App() {
         <View style={styles.container}>
             <View style={{ width: '100%', flexDirection: 'row', gap: 10, marginTop: 10, marginBottom: 10, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={styles.titleText}>⛅️{address}のお天気</Text>
-                {loading && <Text style={{ ...styles.text, fontSize: 16, position: 'absolute', right: 20, color: 'orange' }}>更新中...</Text>}
+                {loading && <Text style={{ ...styles.text, fontSize: 5, position: 'absolute', right: 20, color: 'orange' }}>更新中...</Text>}
             </View>
             {forecast ? (
                 <ScrollView style={styles.mainView} contentContainerStyle={{ gap: 20, marginTop: 10 }}>
@@ -139,7 +139,7 @@ export default function App() {
                                 <View style={styles.leftSection}>
                                     <Text style={{ ...styles.textH2, fontSize: 30 }}>{getWeatherIcon(forecast.daily.weathercode[index])}</Text>
                                     {isToday(date) ? <Text style={styles.textH2}>今日</Text> :
-                                        (<><Text style={styles.textH2}>{date.slice(-5, -3)}/{date.slice(-2)}</Text>
+                                        (<><Text style={styles.textH2}>{date.slice(-2)}</Text>
                                             <Text style={{ ...styles.text, fontSize: 16 }}>({getDayOfWeek(date)})</Text></>)}
                                 </View>
                                 <View style={styles.rightSection}>
@@ -166,11 +166,11 @@ export default function App() {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     textH2: {
-        fontSize: 27,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     container: {

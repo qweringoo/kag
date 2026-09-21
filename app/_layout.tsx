@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     },
     floatingMenu: {
         position: 'absolute',
-        bottom: 30,
+        bottom: 50,
         right: 20,
         flexDirection: 'column-reverse', // 下から上に並べる
         gap: 15,
