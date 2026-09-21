@@ -31,6 +31,12 @@ Kind Apps for Grandma - おばあちゃんのためのやさしいランチャ�
 
 ## 🚀 Quick Start
 
+[公式サイト](https://qweringo.com/projects/kag)または[Releaseページ](https://github.com/qweringoo/kag/releases)より，最新のプレビュー版apkをダウンロード，インストールしてください．  
+**⚠️ プレビュー版では，ニュース機能が使用できません．  
+ニュース機能を使用するには，ご自身でのビルドが必要です．詳細は下の`How To Build`を参考にしてください．**
+
+## 🍳 How To Build
+
 *_**Node.js, gitがすでにインストールされていることを前提としています.**_
 
 1. **リポジトリをクローン**: `$ git clone https://github.com/qweringo/kag.git`
