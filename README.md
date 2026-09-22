@@ -1,4 +1,4 @@
-# 🌙 kag
+# <img width="30" height="30" src="https://qweringo.com/projects/logos/kag.svg" /> kag
 
 Kind Apps for Grandma - おばあちゃんのためのやさしいランチャー&amp;ツール集
 
